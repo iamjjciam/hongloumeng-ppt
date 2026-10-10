@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>红楼梦 — 第一章</title>
+  <style>
+    :root {
+      --bg: #f6f0e8;
+      --paper: #fffaf3;
+      --ink: #2b1d1a;
+      --muted: #6f544d;
+      --accent: #8a3d2f;
+      --gold: #c79d4a;
+      --olive: #50624c;
+      --line: #d7c7b5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(180deg, #f2e8dc, #f7f2ea);
+      color: var(--ink);
+    }
+    .deck {
+      width: 100%;
+      min-height: 100vh;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .slide {
+      position: relative;
+      width: min(1280px, 100%);
+      min-height: 720px;
+      margin: 0 auto;
+      padding: 58px 66px 46px 66px;
+      background: rgba(255,250,243,0.95);
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 26px rgba(43, 29, 26, 0.08);
+      overflow: hidden;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(138,61,47,0.04), rgba(199,157,74,0.05));
+      pointer-events: none;
+    }
+    .slide > * { position: relative; z-index: 1; }
+    h1, h2, h3, p, li { margin-top: 0; }
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    h2 {
+      font-size: 28px;
+      color: var(--olive);
+      margin-bottom: 18px;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+    .title-wrap {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+    .cover-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      align-items: center;
+      height: 100%;
+      gap: 30px;
+    }
+    .cover-art {
+      background: radial-gradient(circle at 50% 30%, #f0d9ae 0%, #d6ad71 18%, #9b6a3e 42%, #5d3b31 100%);
+      border: 1px solid rgba(0,0,0,0.1);
+      min-height: 420px;
+      border-radius: 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 80px rgba(255,255,255,0.15);
+    }
+    .cover-art::before, .cover-art::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+    }
+    .cover-art::before {
+      width: 220px; height: 220px;
+      right: 90px; top: 55px;
+    }
+    .cover-art::after {
+      width: 260px; height: 260px;
+      left: 40px; bottom: 35px;
+    }
+    .meta {
+      margin-top: 14px;
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    ul {
+      margin: 0;
+      padding-left: 22px;
+      font-size: 24px;
+      line-height: 1.9;
+      color: var(--ink);
+    }
+    .quote {
+      font-size: 30px;
+      line-height: 1.7;
+      color: var(--accent);
+      border-left: 5px solid var(--gold);
+      padding-left: 22px;
+      margin: 18px 0 12px;
+      font-weight: 600;
+    }
+    .small {
+      font-size: 18px;
+      color: var(--muted);
+    }
+    .highlight {
+      display: inline-block;
+      padding: 2px 10px;
+      background: rgba(199,157,74,0.12);
+      border: 1px solid rgba(199,157,74,0.35);
+      border-radius: 6px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .footer {
+      position: absolute;
+      bottom: 18px;
+      right: 52px;
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .chapter-tag {
+      font-size: 18px;
+      letter-spacing: 6px;
+      color: var(--gold);
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .card {
+      background: rgba(255,255,255,0.3);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 20px;
+    }
+    .card p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    @media (max-width: 900px) {
+      .slide { padding: 36px 28px 36px; min-height: 620px; }
+      .cover-grid, .two-col, .grid-3 { grid-template-columns: 1fr; }
+      h1 { font-size: 32px; }
+      h2 { font-size: 24px; }
+      ul { font-size: 20px; }
+      .quote { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+
+    <section class="slide">
+      <div class="cover-grid">
+        <div class="title-wrap">
+          <div class="chapter-tag">第一章 · 第一回</div>
+          <h1>红楼梦</h1>
+          <div class="subtitle">石头、宝玉与世事的序幕</div>
+          <div class="meta">
+            汇报人：XXX<br />
+            日期：2026-10-10<br />
+            主题：第一章主要内容与文学价值
+          </div>
+        </div>
+        <div class="cover-art" aria-label="古典水墨意象"></div>
+      </div>
+      <div class="footer">《红楼梦》《第一章》主题汇报</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">目录</div>
+      <h2>本次报告结构</h2>
+      <div class="two-col">
+        <ul>
+          <li>一、作者与创作背景</li>
+          <li>二、第一章的整体梗概</li>
+          <li>三、主要人物与关系</li>
+          <li>四、重要意象与象征</li>
+        </ul>
+        <ul>
+          <li>五、重要文句赏析</li>
+          <li>六、主题与思想线索</li>
+          <li>七、文学特色与语言风格</li>
+          <li>八、总结与延伸阅读</li>
+        </ul>
+      </div>
+      <div class="footer">PPT Outline</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">第一部分</div>
+      <h2>作者与创作背景</h2>
+      <div class="two-col">
+        <div>
+          <ul>
+            <li>作者：曹雪芹，清代现实主义小说大家</li>
+            <li>作品背景：世家兴衰、封建家族秩序与人物命运</li>
+            <li>《红楼梦》被认为是“世情小说”与家族史的结合</li>
+            <li>第一回不是单纯开场，而是为全书设定“命运—象征—梦境”的基调</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>一句话总结</h3>
+          <p>《红楼梦》的第一章，是一个“开门”的章节：它引出人物、象征与叙述方式，预示全书的情感走向与人生结构。</p>
+        </div>
+      </div>
+      <div class="footer">作者背景</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">第二部分</div>
+      <h2>第一章的整体梗概</h2>
+      <ul>
+        <li>以“石头”入题，带出宇宙万物与灵魂命运的神话感</li>
+        <li>叙述中出现“通灵宝玉”这一核心意象，暗示人物与命运的特殊性</li>
+        <li>宝玉出生、成长、家族身份的设定，象征“贵族子弟的命运叙事”</li>
+        <li>第一章更像“序幕”：它展示的是一个世界的形成，而不是完整情节展开</li>
+      </ul>
+      <div class="quote">
+        “满纸荒唐言，一把辛酸泪。都云作者痴，谁解其中味？”
+      </div>
+      <p class="small">这一句既是开篇的叙事宣言，也为后续“荒诞中见真实”的小说世界奠定情感基调。</p>
+      <div class="footer">梗概与序幕</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">第三部分</div>
+      <h2>主要人物与关系</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>贾宝玉</h3>
+          <p>男主角，含玉而生，既有贵族身份，也带有对现实的不适与反叛性。</p>
+        </div>
+        <div class="card">
+          <h3>贾母 / 贾政</h3>
+          <p>家族中的权威结构与教育框架，形成宝玉成长的环境空间。</p>
+        </div>
+        <div class="card">
+          <h3>石头 / 玉</h3>
+          <p>具有灵性和象征意味，是人物命运、情感与世界秩序的核心符号。</p>
+        </div>
+      </div>
+      <div class="small" style="margin-top: 18px;">
+        第一章的关键，不在于复杂情节，而在于为人物及其命运设定“神秘性”和“象征性”。
+      </div>
+      <div class="footer">人物关系</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">第四部分</div>
+      <h2>重要意象与象征</h2>
+      <div class="two-col">
+        <ul>
+          <li><span class="highlight">石头</span>：象征本源、灵魂与世界的起点</li>
+          <li><span class="highlight">玉</span>：美好、贵重、被赋予灵性，并暗示命数与情感</li>
+          <li><span class="highlight">梦</span>：小说中“现实”与“虚幻”不断交织</li>
+          <li><span class="highlight">家族</span>：人与制度、命运与伦理的互动结构</li>
+        </ul>
+        <div class="card">
+          <h3>象征意义</h3>
+          <p>第一章通过“石头—玉”这一系列意象，完成了对全书精神气质的确立：既有神话感，又有现实中的家庭苦难与情感焦虑。</p>
+        </div>
+      </div>
+      <div class="footer">象征研究</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">第五部分</div>
+      <h2>重要段落赏析</h2>
+      <div class="quote">
+        “满纸荒唐言，一把辛酸泪。”
+      </div>
+      <ul>
+        <li>“荒唐”并非轻浮，而是一种看似荒诞、实则坦白的叙事方式</li>
+        <li>“辛酸泪”表明作者对人生、世情、命运的悲悯视角</li>
+        <li>它是对“小说写作”与“人世经验”的双重自白</li>
+      </ul>
+      <p class="small">这类句子既有文学性，也有深沉的现实感，帮助读者理解《红楼梦》并非单纯言情，而是对世相与人命的体察。</p>
+      <div class="footer">文句赏析</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">第六部分</div>
+      <h2>主题与思想线索</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>命运</h3>
+          <p>人从一开始就被置于命数与因果之中，并非自由地创造自己。</p>
+        </div>
+        <div class="card">
+          <h3>虚实</h3>
+          <p>真实与幻想互相交织，书中的情节不完全是现实，也不完全是梦境。</p>
+        </div>
+        <div class="card">
+          <h3>家族</h3>
+          <p>人物命运被家族制度塑造，指向世家衰落与宫闱文化的更大视野。</p>
+        </div>
+      </div>
+      <div class="small" style="margin-top: 18px;">
+        换言之，第一章不是“故事开端”，而是“世界观的开端”。
+      </div>
+      <div class="footer">主题与思想</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">第七部分</div>
+      <h2>文学特色与语言风格</h2>
+      <ul>
+        <li>采用“诗化开头”与“现实感叙述”并置，形成强烈文学气息</li>
+        <li>善于用意象代替单纯情节，使读者获得多层理解</li>
+        <li>语言兼具古雅与通俗，既保留文人气质，也有戏谑和抒情</li>
+        <li>叙述中包含“作者自述”与“戏曲式审美”，增强作品的感染力</li>
+      </ul>
+      <div class="footer">文学特色</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">总结</div>
+      <h2>结语：第一章不仅是开篇，更是总纲</h2>
+      <ul>
+        <li>它以“石头”“玉”“梦”三重意象，完成了世界观与价值观的建立</li>
+        <li>宝玉的命运并不只是“家族中的孩子”，更成为整个世家命运与时代命运的缩影</li>
+        <li>第一章所树立的“悲悯—荒诞—实感”是后续小说最重要的情感基底</li>
+        <li>因此，它既是篇章起点，也是整部作品精神结构的起源</li>
+      </ul>
+      <div class="footer">总结与启发</div>
+    </section>
+
+    <section class="slide">
+      <div class="chapter-tag">延伸阅读</div>
+      <h2>推荐深入阅读</h2>
+      <div class="two-col">
+        <div class="card">
+          <h3>书籍建议</h3>
+          <p>《红楼梦》第一回及第二回原文、注释版；相关文学赏析书籍。</p>
+        </div>
+        <div class="card">
+          <h3>讨论问题</h3>
+          <p>1. 宝玉“含玉而生”象征什么？<br />2. “满纸荒唐言”为什么能成为经典句式？<br />3. 第一章如何建立全书的情感气质？</p>
+        </div>
+      </div>
+      <div class="small" style="margin-top: 18px;">课后思考：为什么一个“开篇”能够决定一部小说的精神气质？</div>
+      <div class="footer">拓展与讨论</div>
+    </section>
+
+  </div>
+</body>
+</html>
